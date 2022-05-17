@@ -10,6 +10,9 @@ QmlWatcher::QmlWatcher(QObject *parent)
     // m_view.setFlags(m_view.flags() | Qt::Window | Qt::WindowStaysOnTopHint);
     if (!QFileInfo("./config.ini").isFile())
     {
+        m_basicPath = "./";
+        m_importPath = "./";
+        m_qmlFile = "main.qml";
         m_settings.setValue("loader/basicPath", "./");
         m_settings.setValue("loader/qmlfile", "main.qml");
         m_settings.setValue("loader/importpath", "./");
@@ -34,11 +37,14 @@ void QmlWatcher::openListen()
     m_settings.setValue("loader/basicPath", m_basicPath);
     m_settings.setValue("loader/qmlfile", m_qmlFile);
     m_settings.setValue("loader/importpath", m_importPath);
-    QDir dir(m_basicPath);
-    m_view.engine()->setBaseUrl(QUrl::fromLocalFile(m_basicPath));
-    m_view.setSource(QUrl(QUrl::fromLocalFile(dir.filePath(m_qmlFile))));
+    QDir base(m_basicPath);
+    m_view.engine()
+        ->setBaseUrl(QUrl::fromLocalFile(base.absolutePath()));
     if (!m_importPath.isEmpty())
-        m_view.engine()->addImportPath(m_importPath);
+        m_view.engine()->addImportPath(QDir(m_importPath).absolutePath());
+    m_view.setSource(QUrl::fromLocalFile(QDir(m_basicPath).filePath(m_qmlFile)));
+    qDebug() << "file " << m_view.source();
+    qDebug() << "base" << m_view.engine()->baseUrl();
     m_view.show();
     scanPaths();
 }
@@ -68,9 +74,8 @@ void QmlWatcher::scanPaths()
 
 void QmlWatcher::reloadQml()
 {
-    QDir dir(m_basicPath);
     m_view.engine()->clearComponentCache();
-    m_view.setSource(QUrl(QUrl::fromLocalFile(dir.filePath(m_qmlFile))));
+    m_view.setSource(QUrl(QUrl::fromLocalFile(QDir(m_basicPath).filePath(m_qmlFile))));
 }
 
 void QmlWatcher::directoryChanged()

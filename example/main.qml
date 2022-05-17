@@ -1,18 +1,26 @@
-import QtQuick 2.15
-import QtQuick.Layouts 1.15
-import QtQuick.Controls 2.15
-import QtQuick.Window 2.15
+import QtQuick 2.0
+import XQuick 1.0
+
 
 Rectangle {
-    width: 400
-    height: 800
+    width: 640
+    height: 480
+    XButton {
+        onClick: {
+            console.log("我被点击了")
+        }
+    }
     MyItem {
+        width: 100
+        height: 100
+        anchors.centerIn: parent
         color: "red"
+        clip: false
         Text {
             anchors.centerIn: parent
-            text: "text"
             font.pixelSize: 100
+            text: "Qml study"
+
         }
-        anchors.fill: parent
     }
 }
