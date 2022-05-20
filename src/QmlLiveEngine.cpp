@@ -38,7 +38,7 @@ void QmlLiveEngine::watch(const QString &Qmlpath)
         unwatchAll();
         scanfPaths(m_absQmlDir);
         addImportPath(m_absQmlDir);
-        qDebug() << "importPaths" << importPathList();
+        // qDebug() << "importPaths" << importPathList();
     }
 }
 void QmlLiveEngine::onFileSystemChanged()

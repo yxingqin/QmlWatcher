@@ -3,7 +3,7 @@ import QtQuick.Window 2.11
 import QtQuick.Controls 1.4
 import QtQuick.Controls 2.4 as Ctrl2
 import QtQuick.Layouts 1.11
-
+//import Qt.labs.platform 1.1
 
 ApplicationWindow {
     id: _window
@@ -16,6 +16,14 @@ ApplicationWindow {
     height: 800
     title: qsTr("Qml watcher")
     property bool isWindow: false
+
+//    QtObject {
+//        id:_theme
+//        property color background: "#262728"
+//        property color reserverColor: "#fff"
+//        property color textColor:  "#FFF"
+//    }
+
     //保存大小
     property point _geo: Qt.point(0, 0)
     property point _size: Qt.point(100, 100)
@@ -44,15 +52,22 @@ ApplicationWindow {
         _loader.source = "";
         $Engine.clearCache();
         if(isWindow)
-             _loader.setSource(s, {"flags": flags, "x": _geo.x, "y": _geo.y, "width": _size.x, "height": _size.y});
+            _loader.setSource(s, {"flags": flags, "x": _geo.x, "y": _geo.y, "width": _size.x, "height": _size.y});
         else
             _loader.setSource(s);
     }
-    function _appendLog(log)
-    {
-        _console.append(log);
-    }
-    ColumnLayout {
+//    menuBar: MenuBar {
+//        Menu {
+//            title:qsTr("Setting")
+//            MenuItem {
+//                text: qsTr("QmlImportPath")
+//                onTriggered: {
+//                   // folderDialog.open();
+//                }
+//            }
+//        }
+//    }
+   ColumnLayout {
         anchors.fill: parent
         anchors.margins: 5
         RowLayout {
@@ -135,18 +150,15 @@ ApplicationWindow {
                 }
             }
         }
-
     }
-
-    DropArea {
-        anchors.fill: parent
-        onDropped: {
-            if (drop.hasUrls) {
-                _mainQmlInput.text = drop.urls[0].replace("file:///", "");
-                _start()
-            }
-        }
-    }
-
+   DropArea {
+       anchors.fill: parent
+       onDropped: {
+           if (drop.hasUrls) {
+               _mainQmlInput.text = drop.urls[0].replace("file:///", "");
+               _start()
+           }
+       }
+   }
 
 }
