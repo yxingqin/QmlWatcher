@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "atomic": "cpp",
+        "qqmlapplicationengine": "cpp",
+        "qfilesystemwatcher": "cpp",
+        "qurl": "cpp",
+        "qtqml": "cpp",
+        "fstream": "cpp"
+    }
+}
